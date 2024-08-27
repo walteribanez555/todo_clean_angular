@@ -1,0 +1,70 @@
+<mat-card style="margin: 50px; padding: 8px;" >
+  <div class="flex  items-center" >
+    <mat-form-field class="mr-4" appearance="fill"  >
+      <input matInput autocomplete="off" [(ngModel)]="newItemName" >
+    </mat-form-field>
+    <div>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="addTodo()"
+      >
+      Add
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+</mat-card>
+
+<div class="flex flex-row " >
+  <mat-card  style="margin:50px; padding: 8px;">
+    <mat-card-title>Complete Items</mat-card-title>
+
+    <ng-container
+      *ngTemplateOutlet="todoItems; context: { todoItems : todoFacade.completeTodoItems()}"
+    >
+
+    </ng-container>
+
+  </mat-card>
+  <mat-card  style="margin:50px; padding: 8px;">
+    <mat-card-title>Incomplete Items</mat-card-title>
+
+    <ng-container
+      *ngTemplateOutlet="todoItems; context: { todoItems : todoFacade.incompleteTodoItems()}"
+    >
+
+    </ng-container>
+  <ng-template  #todoItems let-todoItems="todoItems" >
+    <mat-list role="list">
+      @for (item of todoItems; track item.id) {
+        <mat-list-item [class.is-done]="item.completed" role="listitem" >
+          <div class="flex items-center" >
+            <mat-checkbox  [checked]="item.completed" (change)="todoFacade.toggleItem(item)" >
+              <span  class="text-muted-foreground">{{item.title}}</span>
+
+            </mat-checkbox>
+
+          </div>
+        </mat-list-item>
+      }@empty {
+        <mat-list-item role="listitem">
+          <div class="flex items-center" >
+            <span>No items Found</span>
+          </div>
+        </mat-list-item>
+      }
+    </mat-list>
+  </ng-template>
+
+
+  </mat-card>
+
+</div>
+
+
